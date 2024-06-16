@@ -154,6 +154,8 @@ public class ECommerce_tc_01 extends BaseTestEC{
 		
 		Thread.sleep(2000);
 		
+		// this change I am inserting to check if my code is working
+		
 	}
 	
 	
