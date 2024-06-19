@@ -4,9 +4,11 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -17,6 +19,8 @@ import org.testng.annotations.Test;
 import com.google.common.collect.ImmutableMap;
 
 import io.appium.java_client.AppiumBy;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.functions.ExpectedCondition;
 
 public class ECommerce_tc_01 extends BaseTestEC{
@@ -158,7 +162,87 @@ public class ECommerce_tc_01 extends BaseTestEC{
 		
 	}
 	
-	
+
+	@Test
+	public void webPageAfterProceedTest() throws InterruptedException {
+		driver.findElement(By.id("com.androidsample.generalstore:id/nameField")).sendKeys("Vishal Singh");
+		driver.hideKeyboard();
+		driver.findElement(By.xpath("//android.widget.RadioButton[@text='Female']")).click();
+		driver.findElement(By.id("com.androidsample.generalstore:id/spinnerCountry")).click(); // Click on dropdown
+		driver.findElement(AppiumBy.androidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"Angola\"))")); // Scroll to the country
+		driver.findElement(By.xpath("//android.widget.TextView[@resource-id='android:id/text1' and @text='Angola']")).click();  // Tap on the desired country
+		driver.findElement(By.id("com.androidsample.generalstore:id/btnLetsShop")).click(); //Login done	
+		driver.findElements(By.id("com.androidsample.generalstore:id/productAddCart")).get(0).click();
+		Thread.sleep(2000); // It is taking sometime for the 1st add to cart to be add to cart again (the text)
+		driver.findElements(By.id("com.androidsample.generalstore:id/productAddCart")).get(1).click();
+		//Thread.sleep(2000);
+		// we are again using the index 0 beacause once we are clibbking on the Add to cart, It is changed to Added for sometime
+		driver.findElement(By.id("com.androidsample.generalstore:id/appbar_btn_cart")).click();
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+		wait.until(ExpectedConditions.attributeContains(driver.findElement(By.id("com.androidsample.generalstore:id/toolbar_title")), "text", "Cart"));
+		List<WebElement> PriceList = driver.findElements(By.id("com.androidsample.generalstore:id/productPrice"));
+		
+		Float totalAmount =0f;
+		for(WebElement ele : PriceList) {
+			//totalAmount += Float.parseFloat(ele.getText().split("\\$")[1]);
+			totalAmount += getFormattedAmount(ele.getText());
+		}
+		Float amountFromPage = getFormattedAmount(driver.findElement(By.id("com.androidsample.generalstore:id/totalAmountLbl")).getText());
+		System.out.println("Total Amount Calculated : "+ totalAmount);
+		System.out.println("Amount from Page : "+ amountFromPage);
+		Assert.assertEquals(totalAmount, amountFromPage); // to check the total amount 
+		
+		// Now to check the Terms of Conditions - Longpress on the element on the cart page
+		// this longpressGesture method I have written in the base class. based on the Appium gesture document of github
+		longPressGesture(driver.findElement(By.id("com.androidsample.generalstore:id/termsButton")), 2000); // time to be given in milliseconds
+		
+		
+		Thread.sleep(2000);
+		Assert.assertEquals(driver.findElement(By.id("android:id/message")).getText(), "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.");
+		driver.findElement(By.id("android:id/message")).getText();
+		driver.findElement(By.id("android:id/button1")).click();		
+		driver.findElement(By.xpath("//android.widget.CheckBox[@text=\"Send me e-mails on discounts related to selected products in future\"]")).click();
+		driver.findElement(By.id("com.androidsample.generalstore:id/btnProceed")).click();
+		Thread.sleep(5000); // till the broswer is loaded 
+		
+		
+		// till above we have clicked on the proceed Button that will take us to the web page after that. Which is Google.com in this case. 
+		//But remember one thing that this website is opened in the browser in the app only not in any other browser.
+		// these types of apps are called Hybrid apps 
+		// from the error we came to know that Chromedriver is not be able to be found. so we need to download it manually and set the path in Base test in UIAutomator Options
+		// Now when the browser is opened or the web page is opened we can not continue to use the driver till the time we are interacting with the webpage
+		// So we need to switch to web context 
+		
+		Set<String> contexts = driver.getContextHandles(); // this method will give you the all available cobntext related to your driver in our case one is native app and other one is browser 
+		for (String contextName : contexts) {
+			System.out.println(contextName);
+		}  // NATIVE_APP, WEBVIEW_com.androidsample.generalstore were printed. 
+		Thread.sleep(2000);
+		driver.context("WEBVIEW_com.androidsample.generalstore"); // This webview is generic and can be changed as per the developer so need to check this 
+		// here we are making use of web browser chrome, So for that we need chrome Driver and in our emulator chrome driver installed i "113.0.5672"
+		// Now to get the chrome driver - Google search chromedriver <version> download 
+		// add the options in UiAutomatorOptions also
+		driver.findElement(By.name("q")).sendKeys("I bought shows");
+		driver.findElement(By.name("q")).sendKeys(Keys.ENTER);
+		driver.pressKey(new KeyEvent(AndroidKey.BACK));
+		driver.context("NATIVE_APP"); // switching back to native driver context. 
+		/*
+		 * Native app:There is no webpage involved and all the operations are performed on the Android device itself. 
+		 * Native apps are developed specifically for a particular mobile operating system (iOS, Android) using platform-specific programming languages 
+		 * (Java/Kotlin for Android, Swift/Objective-C for iOS). These apps can fully utilize device features such as the camera, GPS, and push notifications.
+		 * 
+		 * Hybrid app:A hybrid app is a combination of both native and web apps. 
+		 * These apps are essentially web applications enclosed in a native app shell. 
+		 * They are built using web technologies like HTML, CSS, and JavaScript and then wrapped in a native container that allows them to run on mobile devices. 
+		 * Hybrid apps can access device features through plugins and can be distributed through app stores like native apps. 
+		 */
+		
+		
+		
+		
+		// this change I am inserting to check if my code is working
+		
+	}
 	
 	
 	

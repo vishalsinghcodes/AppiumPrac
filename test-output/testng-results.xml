@@ -2,24 +2,24 @@
 <testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2024-06-16T15:55:54 IST" name="Default suite" finished-at="2024-06-16T15:56:27 IST" duration-ms="32728">
+  <suite started-at="2024-06-19T16:09:10 IST" name="Default suite" finished-at="2024-06-19T16:09:28 IST" duration-ms="18235">
     <groups>
     </groups>
-    <test started-at="2024-06-16T15:55:54 IST" name="Default test" finished-at="2024-06-16T15:56:27 IST" duration-ms="32728">
-      <class name="eCommerceTestCases.ECommerce_tc_01">
-        <test-method is-config="true" signature="configureAppium()[pri:0, instance:eCommerceTestCases.ECommerce_tc_01@3aa078fd]" started-at="2024-06-16T15:55:54 IST" name="configureAppium" finished-at="2024-06-16T15:56:01 IST" duration-ms="6873" status="PASS">
+    <test started-at="2024-06-19T16:09:10 IST" name="Default test" finished-at="2024-06-19T16:09:28 IST" duration-ms="18235">
+      <class name="AppiumFirstProject.MobileBrowserTest09">
+        <test-method is-config="true" signature="configureAppiumTest()[pri:0, instance:AppiumFirstProject.MobileBrowserTest09@5dafbe45]" started-at="2024-06-19T16:09:10 IST" name="configureAppiumTest" finished-at="2024-06-19T16:09:20 IST" duration-ms="9913" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- configureAppium -->
-        <test-method signature="verifyTotalAmountIsCorrect()[pri:0, instance:eCommerceTestCases.ECommerce_tc_01@3aa078fd]" started-at="2024-06-16T15:56:01 IST" name="verifyTotalAmountIsCorrect" finished-at="2024-06-16T15:56:26 IST" duration-ms="24965" status="PASS">
+        </test-method> <!-- configureAppiumTest -->
+        <test-method signature="anotherWebTestUsingRahulWeb()[pri:0, instance:AppiumFirstProject.MobileBrowserTest09@5dafbe45]" started-at="2024-06-19T16:09:20 IST" name="anotherWebTestUsingRahulWeb" finished-at="2024-06-19T16:09:28 IST" duration-ms="7791" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- verifyTotalAmountIsCorrect -->
-        <test-method is-config="true" signature="tearDown()[pri:0, instance:eCommerceTestCases.ECommerce_tc_01@3aa078fd]" started-at="2024-06-16T15:56:26 IST" name="tearDown" finished-at="2024-06-16T15:56:27 IST" duration-ms="859" status="PASS">
+        </test-method> <!-- anotherWebTestUsingRahulWeb -->
+        <test-method is-config="true" signature="tearDown()[pri:0, instance:AppiumFirstProject.MobileBrowserTest09@5dafbe45]" started-at="2024-06-19T16:09:28 IST" name="tearDown" finished-at="2024-06-19T16:09:28 IST" duration-ms="489" status="PASS">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
-      </class> <!-- eCommerceTestCases.ECommerce_tc_01 -->
+      </class> <!-- AppiumFirstProject.MobileBrowserTest09 -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

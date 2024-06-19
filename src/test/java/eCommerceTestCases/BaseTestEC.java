@@ -37,6 +37,7 @@ public class BaseTestEC {
 		UiAutomator2Options options = new UiAutomator2Options();
 		options.setDeviceName("VishalPhone");
 		options.setApp(System.getProperty("user.dir") + "\\src\\test\\java\\resources\\General-Store.apk");
+		options.setChromedriverExecutable("C:\\Users\\Vishal Singh\\eclipse-workspace\\AppiumFirstProject\\src\\test\\java\\resources\\chromedriver.exe");
 
 		driver = new AndroidDriver(new URI("http://127.0.0.1:4723").toURL(), options);
 
